@@ -18,8 +18,5 @@
     "autoload": {
         "psr-0": { "Eko\\FeedBundle": "" }
     },
-    "replace": {
-        "eko/feedbundle": "dev-master"  
-    },
     "target-dir": "Eko/FeedBundle"
 }
