@@ -1,5 +1,5 @@
 {
-    "name": "hypebeast/feedbundle",
+    "name": "eko/feedbundle",
     "type": "library",
     "description": "A Symfony bundle to build RSS feeds from entities",
     "keywords": ["feed", "bundle", "rss", "atom"],
