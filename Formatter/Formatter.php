@@ -81,8 +81,8 @@ class Formatter
                 throw new \InvalidArgumentException("'attribute' parameter required an 'attribute_name' parameter.");
             }
 
-            $element = $this->dom->createElement($name);
-            $element->setAttribute($field->get('attribute_name'), $item->getFeedItemLink());
+            $element = $this->dom->createElement($name, $value);
+            $element->setAttribute($field->get('attribute_name'), $field->get('attribute'));
 
         } else {
             if ($format = $field->get('date_format')) {
