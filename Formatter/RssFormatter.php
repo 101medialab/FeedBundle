@@ -67,6 +67,12 @@ class RssFormatter extends Formatter implements FormatterInterface
         $this->dom = new \DOMDocument('1.0', $encoding);
 
         $root = $this->dom->createElement('rss');
+        $root->setAttribute('xmlns:content', 'http://purl.org/rss/1.0/modules/content/');
+        $root->setAttribute('xmlns:wfw', 'http://wellformedweb.org/CommentAPI/');
+        $root->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+        $root->setAttribute('xmlns:atom', 'http://www.w3.org/2005/Atom');
+        $root->setAttribute('xmlns:sy', 'http://purl.org/rss/1.0/modules/syndication/');
+        $root->setAttribute('xmlns:slash', 'http://purl.org/rss/1.0/modules/slash/');
         $root->setAttribute('version', '2.0');
         $root = $this->dom->appendChild($root);
 
@@ -79,6 +85,16 @@ class RssFormatter extends Formatter implements FormatterInterface
             $element = $this->dom->createElement($field, $this->feed->get($field));
             $channel->appendChild($element);
         }
+
+        $element = $this->dom->createElement('atom:link');
+        $element->setAttribute('href', 'http://hypebeast.com/feed/');
+        $element->setAttribute('rel', 'self');
+        $element->setAttribute('type', 'application/rss+xml');
+        $channel->appendChild($element);
+
+        $channel->appendChild($this->dom->createElement('language', 'en-US'));
+        $channel->appendChild($this->dom->createElement('sy:updatePeriod', 'hourly'));
+        $channel->appendChild($this->dom->createElement('sy:updateFrequency', '1'));
 
         $date = new \DateTime();
         $lastBuildDate = $this->dom->createElement('lastBuildDate', $date->format(\DateTime::RSS));
