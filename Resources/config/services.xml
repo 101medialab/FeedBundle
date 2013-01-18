@@ -24,8 +24,9 @@
             </call>
         </service>
 
-        <service id="eko_feed.formatter.rss" class="%eko_feed.formatter.rss.class%">
+        <service id="eko_feed.formatter.rss" class="%eko_feed.formatter.rss.class%" scope="request">
             <argument type="service" id="eko_feed.feed" />
+            <argument type="service" id="request" />
         </service>
 
         <service id="eko_feed.formatter.atom" class="%eko_feed.formatter.atom.class%">
