@@ -17,6 +17,7 @@ use Eko\FeedBundle\Formatter\RssFormatter;
 use Eko\FeedBundle\Item\Field;
 use Eko\FeedBundle\Item\ItemInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Feed
@@ -190,11 +191,11 @@ class Feed
      *
      * @throws \InvalidArgumentException if given format formatter does not exists
      */
-    public function render($format)
+    public function render($format, Request $request)
     {
         switch ($format) {
             case 'rss':
-                $formatter = new RssFormatter($this);
+                $formatter = new RssFormatter($this, $request);
                 break;
 
             case 'atom':
