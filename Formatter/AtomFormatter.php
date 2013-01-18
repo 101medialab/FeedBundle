@@ -105,10 +105,14 @@ class AtomFormatter extends Formatter implements FormatterInterface
 
         $items = $this->feed->getItems();
 
+        $this->root = $root;
+
         foreach ($items as $item) {
-            $this->addItem($root, $item);
+            $this->addItem($item);
         }
     }
+    
+    private $root;
 
     /**
      * Add an entity item to the feed
@@ -116,10 +120,10 @@ class AtomFormatter extends Formatter implements FormatterInterface
      * @param \DOMElement   $root The root (feed) DOM element
      * @param ItemInterface $item An entity object
      */
-    public function addItem(\DOMElement $root, ItemInterface $item)
+    public function addItem(ItemInterface $item)
     {
         $node = $this->dom->createElement('entry');
-        $node = $root->appendChild($node);
+        $node = $this->root->appendChild($node);
 
         foreach ($this->fields as $field) {
             $element = $this->format($field, $item);
