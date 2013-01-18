@@ -48,6 +48,8 @@ class Feed
      */
     protected $fields = array();
 
+    protected $currentUrl = '';
+
     /**
      * @param array $config Configuration settings
      */
@@ -182,6 +184,11 @@ class Feed
         return $this->fields;
     }
 
+    public function setCurrentUrl($url)
+    {
+        $this->currentUrl = $url;
+    }
+
     /**
      * Render the feed in specified format
      *
@@ -191,15 +198,23 @@ class Feed
      *
      * @throws \InvalidArgumentException if given format formatter does not exists
      */
-    public function render($format, Request $request)
+    public function render($format)
     {
         switch ($format) {
             case 'rss':
-                $formatter = new RssFormatter($this, $request);
-                break;
 
-            case 'atom':
-                $formatter = new AtomFormatter($this);
+                $formatter = new RssFormatter($this);
+
+                $formatter->initialize();
+
+                $formatter->writeHeader($this->currentUrl);
+
+                $items = $this->getItems();
+
+                foreach ($items as $item) {
+                    $formatter->addItem($item);
+                }
+
                 break;
 
             default:
