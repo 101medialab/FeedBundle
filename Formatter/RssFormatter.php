@@ -13,6 +13,7 @@ namespace Eko\FeedBundle\Formatter;
 use Eko\FeedBundle\Feed\Feed;
 use Eko\FeedBundle\Item\Field;
 use Eko\FeedBundle\Item\ItemInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * RSS formatter
@@ -23,13 +24,17 @@ use Eko\FeedBundle\Item\ItemInterface;
  */
 class RssFormatter extends Formatter implements FormatterInterface
 {
+    private $request;
+
     /**
      * Construct a formatter with given feed
      *
      * @param Feed $feed A feed instance
      */
-    public function __construct(Feed $feed)
+    public function __construct(Feed $feed, Request $request)
     {
+        $this->request = $request;
+
         $this->fields = array(
             new Field(
                 'title',
@@ -87,7 +92,7 @@ class RssFormatter extends Formatter implements FormatterInterface
         }
 
         $element = $this->dom->createElement('atom:link');
-        $element->setAttribute('href', 'http://hypebeast.com/feed/');
+        $element->setAttribute('href', $this->request->getUri());
         $element->setAttribute('rel', 'self');
         $element->setAttribute('type', 'application/rss+xml');
         $channel->appendChild($element);
